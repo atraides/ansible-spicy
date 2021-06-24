@@ -10,5 +10,3 @@
 - name: Setup on Linux
   include_tasks: Linux.yml
   when: "ansible_system == 'Linux'"
-
-- import_tasks: setup.yml
