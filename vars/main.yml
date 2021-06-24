@@ -1,2 +1,8 @@
 ---
 # vars file for ansible-spicy
+private_ssh_keys: []
+ohmyzsh_plugins: []
+ohmyzsh_keychain_options: []
+
+grc_deb_name: "grc_1.12-1_all.deb"
+grc_deb_url: "http://kassiopeia.juls.savba.sk/~garabik/software/grc/{{ grc_deb_name }}"
