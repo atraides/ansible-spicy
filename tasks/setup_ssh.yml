@@ -1,0 +1,6 @@
+---
+- name: Setup authorized key(s)
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ lookup('pipe','cat ssh_keys/{{ ansible_user_id }}/*.pub') }}"
+    exclusive: yes

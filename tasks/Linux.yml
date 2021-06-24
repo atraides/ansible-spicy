@@ -1,0 +1,4 @@
+---
+- name: Setup SSH environment
+  include_tasks: setup_ssh.yml
+  when: spicy_ssh | bool
