@@ -1,0 +1,6 @@
+---
+- name: Install prerquisite packages
+  ansible.builtin.package:
+    name: "{{ spicy_shell_packages[spicy_shell] }}"
+    state: present
+  become: yes
