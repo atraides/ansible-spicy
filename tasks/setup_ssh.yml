@@ -1,6 +1,19 @@
 ---
+- name: Check if the remote user have SSH keys to install
+  ansible.builtin.stat:
+    path: "{{ spicy_ssh_keys_folder }}"
+  register: spicy_authorized_keys_folder
+  delegate_to: 127.0.0.1
+
+- name: Collect SSH keys for the user to install
+  set_fact:
+    spicy_authorized_keys: "{{ lookup('fileglob', '{{ spicy_ssh_keys_folder }}/*.pub', wantlist=True) }}"
+  when: spicy_authorized_keys_folder.stat.exists
+  delegate_to: 127.0.0.1
+
 - name: Setup authorized key(s)
   authorized_key:
     user: "{{ ansible_user_id }}"
-    key: "{{ lookup('pipe','cat ssh_keys/{{ ansible_user_id }}/*.pub') }}"
-    exclusive: yes
+    key: "{{ item }}"
+  with_file: "{{ spicy_authorized_keys }}"
+  when: spicy_authorized_keys | length > 0

@@ -1,5 +1,9 @@
 ---
 # vars file for ansible-spicy
+spicy_install_authorized_keys: false
+spicy_authorized_keys: []
+spicy_ssh_keys_folder: "ssh_keys/{{ ansible_user_id }}"
+
 private_ssh_keys: []
 ohmyzsh_plugins: []
 ohmyzsh_keychain_options: []
