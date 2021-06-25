@@ -1,7 +1,7 @@
 ---
 - name: Install grc from package
   apt:
-    deb: "{{ grc_deb_url }}"
+    deb: "{{ spicy_grc_deb_url }}"
   become: yes
   when: >
     "ansible_distribution == 'Ubuntu'" or
