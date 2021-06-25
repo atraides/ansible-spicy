@@ -2,3 +2,10 @@
 - name: Setup SSH environment
   include_tasks: setup_ssh.yml
   when: spicy_ssh | bool
+
+- name: Setup GRC
+  include_tasks: grc.yml
+  when: >
+    spicy_grc | bool and
+    ("ansible_distribution == 'Ubuntu'" or
+    "ansible_distribution == 'Debian'")
