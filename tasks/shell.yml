@@ -4,3 +4,10 @@
     name: "{{ spicy_shell_packages[spicy_shell] }}"
     state: present
   become: yes
+
+- name: set up zsh for user
+  become: yes
+  user:
+    name: "{{ spicy_ansible_user }}"
+    shell: "{{ spicy_shell_binary[spicy_shell] }}"
+  when: spicy_chsh | bool

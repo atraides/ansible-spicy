@@ -2,3 +2,7 @@
 spicy_shell_packages:
   bash: "bash"
   zsh: "zsh"
+
+spicy_shell_binary:
+  bash: "/bin/bash"
+  zsh: "/usr/bin/zsh"
