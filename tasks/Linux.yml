@@ -12,3 +12,9 @@
     spicy_grc | bool and
     ("ansible_distribution == 'Ubuntu'" or
     "ansible_distribution == 'Debian'")
+
+- name: Enable Oh My Zsh
+  include_tasks: ohmyzsh.yml
+  when: >
+    spicy_shell == "zsh" and
+    spicy_oh_my_zsh | bool

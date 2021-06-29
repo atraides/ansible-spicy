@@ -12,7 +12,7 @@ spicy_private_key_regex: "^(.*).pub(.*)$"
 spicy_keychain_identities: ""
 
 ohmyzsh_plugins: []
-ohmyzsh_keychain_options: []
+ohmyzsh_keychain_options: ["agents ssh", "options --quiet"]
 
 spicy_grc_version: "1.12-1"
 spicy_grc_deb_url: "http://kassiopeia.juls.savba.sk/~garabik/software/grc/grc_{{ spicy_grc_version }}_all.deb"

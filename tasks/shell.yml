@@ -5,7 +5,7 @@
     state: present
   become: yes
 
-- name: set up zsh for user
+- name: "Change the default shell of user to {{ spicy_shell }}"
   become: yes
   user:
     name: "{{ spicy_ansible_user }}"
