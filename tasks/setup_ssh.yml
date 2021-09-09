@@ -34,6 +34,12 @@
   debug:
     msg: "{{ spicy_private_key_files }}"
 
+- name: Keychain | Debug private key file list
+  debug:
+    msg: "{{ spicy_private_keys + [ item  | regex_replace('^.*/(.*)$', '\\1') ] }}"
+  loop: "{{ spicy_private_key_files }}"
+  when: spicy_private_key_files | length > 0
+
 - name: Keychain | Generate private key list
   set_fact:
     spicy_private_keys: "{{ spicy_private_keys + [ item  | regex_replace('^.*/(.*)$', '\\1') ] }}"
@@ -50,7 +56,7 @@
 
 - name: Keychain | Install required packages
   become: yes
-  ansible.builtin.package: 
+  ansible.builtin.package:
     name: "keychain"
     state: latest
   register: spicy_keychain_installed
