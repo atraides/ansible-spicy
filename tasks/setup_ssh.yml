@@ -26,19 +26,28 @@
 
 - name: Collect private keys for the user to install
   set_fact:
-    spicy_private_key_files: "{{ lookup('fileglob', '{{spicy_private_key_folder}}/*', wantlist=True) | reject('match', spicy_private_key_regex) | list }}"
+    spicy_private_key_files: "{{ lookup('fileglob', '{{spicy_private_key_folder}}/*', wantlist=True) | reject('match', spicy_public_key_regex) | list }}"
   when: spicy_private_key_folder_stats.stat.exists
   delegate_to: 127.0.0.1
 
-- name: Keychain | Generate private key list
+- name: Generate private key list for keychain
   set_fact:
     spicy_private_keys: "{{ spicy_private_keys + [ item  | regex_replace('^(?P<path>.*)/(?P<keyname>.*)$', '\\g<keyname>') ] }}"
   loop: "{{ spicy_private_key_files }}"
   when: spicy_private_key_files | length > 0
 
-- name: Keychain | Install private keys
+- name: Install private keys
   copy:
     src: "{{ spicy_private_key_folder }}/{{ item }}"
+    dest: ~/.ssh
+    owner: "{{ ansible_user_id }}"
+    mode: preserve
+  loop: "{{ spicy_private_keys }}"
+  when: spicy_private_keys | length > 0
+
+- name: Install required public keys
+  copy:
+    src: "{{ spicy_private_key_folder }}/{{ item }}.pub"
     dest: ~/.ssh
     owner: "{{ ansible_user_id }}"
     mode: preserve
