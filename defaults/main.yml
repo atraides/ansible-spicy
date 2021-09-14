@@ -10,11 +10,3 @@ spicy_oh_my_zsh: false
 spicy_p10k: false
 spicy_keychain: false
 spicy_grc: false
-
-pyenv_init_shell: false
-pyenv_python36_version: "3.6.12"
-pyenv_python39_version: "3.9.4"
-pyenv_python_versions:
-  - "{{ pyenv_python39_version }}"
-  - "{{ pyenv_python36_version }}"
-pyenv_global: "{{ pyenv_python39_version }}"

@@ -27,3 +27,10 @@ dependencies:
     src: https://github.com/markosamuli/ansible-pyenv.git
     scm: git
     version: v5.0.0
+    pyenv_init_shell: false
+    pyenv_python36_version: "3.6.12"
+    pyenv_python39_version: "3.9.7"
+    pyenv_python_versions:
+      - "{{ pyenv_python39_version }}"
+      - "{{ pyenv_python36_version }}"
+    pyenv_global: "{{ pyenv_python39_version }}"
