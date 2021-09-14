@@ -1,0 +1,4 @@
+---
+- name: "PyEnv | Add pyenv to the oh-my-zsh plugins"
+  set_fact:
+    ohmyzsh_plugins: "{{ ohmyzsh_plugins + [ 'pyenv' ] }}"
