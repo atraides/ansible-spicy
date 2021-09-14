@@ -18,3 +18,10 @@
   when: >
     spicy_shell == "zsh" and
     spicy_oh_my_zsh | bool
+
+- name: Setup powerline10k as the default theme
+  include_tasks: p10k.yml
+  when: >
+    spicy_shell == "zsh" and
+    spicy_oh_my_zsh | bool and
+    spicy_p10k | bool

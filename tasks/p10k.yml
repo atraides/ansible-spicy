@@ -1,0 +1,17 @@
+---
+- name: "Enable powerline10k for {{ ansible_user_id }}"
+  block:
+    - name: "Download powerline10k from github"
+      git:
+        repo: "https://github.com/romkatv/powerlevel10k.git"
+        depth: 1
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+
+    - name: "Change Oh My Zsh theme to powerline10k"
+      lineinfile:
+        dest: "{{ ansible_env.HOME }}/.zshrc"
+        regexp: "^ZSH_THEME=(.*)$"
+        line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+        state: present
+        owner: "{{ ansible_user_id }}"
+        create: yes
