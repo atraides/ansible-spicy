@@ -5,6 +5,12 @@
   register: spicy_authorized_keys_folder
   delegate_to: 127.0.0.1
 
+- name: Check if the remote user have SSH configuration to install
+  ansible.builtin.stat:
+    path: "{{ spicy_ssh_config_folder }}"
+  register: spicy_ssh_config_folder_info
+  delegate_to: 127.0.0.1
+
 - name: Collect SSH keys for the user to install
   set_fact:
     spicy_authorized_keys: "{{ lookup('fileglob', '{{ spicy_ssh_keys_folder }}/*.pub', wantlist=True) }}"
@@ -53,6 +59,14 @@
     mode: preserve
   loop: "{{ spicy_private_keys }}"
   when: spicy_private_keys | length > 0
+
+- name: Install ssh user configuration
+  copy:
+    src: "{{ spicy_ssh_config_folder }}/config"
+    dest: ~/.ssh
+    owner: "{{ ansible_user_id }}"
+    mode: preserve
+  when: spicy_ssh_config_folder_info.stat.exists
 
 - name: Keychain | Install required packages
   become: yes

@@ -5,6 +5,7 @@ spicy_authorized_keys: []
 spicy_ssh_keys_folder: "ssh_keys/{{ ansible_user_id }}"
 
 spicy_private_key_folder: "ssh_keys/{{ ansible_user_id }}/private"
+spicy_ssh_config_folder: "ssh_config/{{ ansible_user_id }}"
 spicy_private_key_files: []
 spicy_private_keys: []
 spicy_public_key_regex: "^(.*).pub(.*)$"
