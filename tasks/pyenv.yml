@@ -4,21 +4,19 @@
     ohmyzsh_plugins: "{{ ohmyzsh_plugins + [ 'pyenv' ] }}"
 
 - name: Make sure pyenv is loaded properly
-  lineinfile:
+  blockinfile:
     dest: "{{ ansible_env.HOME }}/.profile"
-    line: "{{ item }}"
     create: yes
-  with_items:
-    - 'export PYENV_ROOT="$HOME/.pyenv"'
-    - 'export PATH="$PYENV_ROOT/bin:$PATH"'
-    - 'eval "$(pyenv init -)"'
+    block: |
+      export PYENV_ROOT="$HOME/.pyenv
+      export PATH="$PYENV_ROOT/bin:$PATH
+      eval "$(pyenv init -)
 
 - name: Make sure pyenv is loaded properly in ZSH
-  lineinfile:
+  blockinfile:
     dest: "{{ ansible_env.HOME }}/.zprofile"
-    line: "{{ item }}"
     create: yes
-  with_items:
-    - 'export PYENV_ROOT="$HOME/.pyenv"'
-    - 'export PATH="$PYENV_ROOT/bin:$PATH"'
-    - 'eval "$(pyenv init -)"'
+    block: |
+      export PYENV_ROOT="$HOME/.pyenv
+      export PATH="$PYENV_ROOT/bin:$PATH
+      eval "$(pyenv init -)
