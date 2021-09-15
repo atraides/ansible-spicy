@@ -65,7 +65,7 @@
     src: "{{ spicy_ssh_config_folder }}/config"
     dest: ~/.ssh
     owner: "{{ ansible_user_id }}"
-    mode: preserve
+    mode: "0644"
   when: spicy_ssh_config_folder_info.stat.exists
 
 - name: Keychain | Install required packages
