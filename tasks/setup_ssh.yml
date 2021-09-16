@@ -1,12 +1,12 @@
 ---
-- name: Check if we have SSH keys for the remote user ({{ ansible_user_id }})
+- name: Check if we have SSH keys for {{ ansible_user_id }}
   ansible.builtin.stat:
     path: "{{ spicy_ssh_keys_folder }}"
   register: spicy_authorized_keys_folder
   delegate_to: 127.0.0.1
   run_once: True
 
-- name: Check if we have SSH configuration for the remote user ({{ ansible_user_id }})
+- name: Check if we have SSH configuration for {{ ansible_user_id }}
   ansible.builtin.stat:
     path: "{{ spicy_ssh_config_folder }}"
   register: spicy_ssh_config_folder_info
@@ -20,34 +20,34 @@
   delegate_to: 127.0.0.1
   run_once: True
 
-- name: Setup authorized key(s)
+- name: Setup authorized keys for {{ ansible_user_id }}
   authorized_key:
     user: "{{ ansible_user_id }}"
     key: "{{ item }}"
   with_file: "{{ spicy_authorized_keys }}"
   when: spicy_authorized_keys | length > 0
 
-- name: Check if the remote user have private keys to install
+- name: Check if we have SSH private keys for {{ ansible_user_id }}
   ansible.builtin.stat:
     path: "{{ spicy_private_key_folder }}"
   register: spicy_private_key_folder_stats
   delegate_to: 127.0.0.1
   run_once: True
 
-- name: Collect private keys for the user to install
+- name: Collect SSH private keys for {{ ansible_user_id }}
   set_fact:
     spicy_private_key_files: "{{ lookup('fileglob', '{{ spicy_private_key_folder }}/*', wantlist=True) | reject('match', spicy_public_key_regex) | list }}"
   when: spicy_private_key_folder_stats.stat.exists
   delegate_to: 127.0.0.1
   run_once: True
 
-- name: Generate private key list for keychain
+- name: Collect SSH private keys for {{ ansible_user_id }} to use with keychain
   set_fact:
     spicy_private_keys: "{{ spicy_private_keys + [ item  | regex_replace('^(?P<path>.*)/(?P<keyname>.*)$', '\\g<keyname>') ] }}"
   loop: "{{ spicy_private_key_files }}"
   when: spicy_private_key_files | length > 0
 
-- name: Install private keys
+- name: Install SSH private keys for {{ ansible_user_id }}
   copy:
     src: "{{ spicy_private_key_folder }}/{{ item }}"
     dest: ~/.ssh
@@ -56,7 +56,7 @@
   loop: "{{ spicy_private_keys }}"
   when: spicy_private_keys | length > 0
 
-- name: Install required public keys
+- name: Install the required public keys for {{ ansible_user_id }}
   copy:
     src: "{{ spicy_private_key_folder }}/{{ item }}.pub"
     dest: ~/.ssh
@@ -65,7 +65,7 @@
   loop: "{{ spicy_private_keys }}"
   when: spicy_private_keys | length > 0
 
-- name: Install ssh user configuration
+- name: Install the SSH user configuration for {{ ansible_user_id }}
   copy:
     src: "{{ spicy_ssh_config_folder }}/config"
     dest: ~/.ssh
@@ -73,7 +73,7 @@
     mode: "0644"
   when: spicy_ssh_config_folder_info.stat.exists
 
-- name: Keychain | Install required packages
+- name: Make sure that keychain is installed
   become: yes
   ansible.builtin.package:
     name: "keychain"
@@ -89,12 +89,12 @@
     spicy_keychain | bool and
     spicy_private_keys | length > 0
 
-- name: Keychain | Add private keys to keychain
+- name: Add keychain identities to oh-my-zsh
   set_fact:
     ohmyzsh_keychain_options: "{{ ohmyzsh_keychain_options + [ 'identities ' + spicy_keychain_identities ] }}"
   when: spicy_keychain_identities | length > 0 
 
-- name: "Keychain | Enable keychain for bash"
+- name: Enable keychain for bash
   lineinfile:
     dest: "~{{ ansible_user_id }}/.bashrc"
     regexp: "eval $(keychain --eval --agents (.*))"
@@ -104,6 +104,6 @@
     create: no
   when: spicy_keychain_identities | length > 0
 
-- name: "Keychain | Add keychain to the oh-my-zsh plugins"
+- name: Add keychain to the oh-my-zsh plugins
   set_fact:
     ohmyzsh_plugins: "{{ ohmyzsh_plugins + [ 'keychain' ] }}"
