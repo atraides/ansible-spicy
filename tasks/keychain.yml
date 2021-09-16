@@ -1,0 +1,31 @@
+- name: Make sure that keychain is installed
+  become: yes
+  ansible.builtin.package:
+    name: "keychain"
+    state: present
+  register: spicy_keychain_installed
+  until: spicy_keychain_installed is succeeded
+
+- name: Generate list of identities for keychain
+  set_fact:
+    spicy_keychain_identities: "{{ spicy_private_keys | join(' ') }}"
+  when: spicy_private_keys | length > 0
+
+- name: Add keychain identities to oh-my-zsh
+  set_fact:
+    ohmyzsh_keychain_options: "{{ ohmyzsh_keychain_options + [ 'identities ' + spicy_keychain_identities ] }}"
+  when: spicy_keychain_identities | length > 0 
+
+- name: Enable keychain for bash
+  lineinfile:
+    dest: "~{{ ansible_user_id }}/.bashrc"
+    regexp: "eval $(keychain --eval --agents (.*))"
+    line: "eval $(keychain --eval --agents ssh {{ spicy_keychain_identities }})"
+    state: present
+    owner: "{{ ansible_user_id }}"
+    create: no
+  when: spicy_keychain_identities | length > 0
+
+- name: Add keychain to the oh-my-zsh plugins
+  set_fact:
+    ohmyzsh_plugins: "{{ ohmyzsh_plugins + [ 'keychain' ] }}"
