@@ -22,9 +22,4 @@ galaxy_info:
 
   galaxy_tags: []
 
-dependencies:
-  - role: markosamuli.pyenv
-    src: https://github.com/markosamuli/ansible-pyenv.git
-    scm: git
-    version: v5.0.0
-    pyenv_init_shell: false
+dependencies: []
