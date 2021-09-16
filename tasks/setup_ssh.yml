@@ -20,19 +20,19 @@
   delegate_to: 127.0.0.1
   run_once: True
 
-- name: Setup authorized keys for {{ ansible_user_id }}
-  authorized_key:
-    user: "{{ ansible_user_id }}"
-    key: "{{ item }}"
-  with_file: "{{ spicy_authorized_keys }}"
-  when: spicy_authorized_keys | length > 0
-
 - name: Check if we have SSH private keys for {{ ansible_user_id }}
   ansible.builtin.stat:
     path: "{{ spicy_private_key_folder }}"
   register: spicy_private_key_folder_stats
   delegate_to: 127.0.0.1
   run_once: True
+
+- name: Setup authorized keys for {{ ansible_user_id }}
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ item }}"
+  with_file: "{{ spicy_authorized_keys }}"
+  when: spicy_authorized_keys | length > 0
 
 - name: Collect SSH private keys for {{ ansible_user_id }}
   set_fact:

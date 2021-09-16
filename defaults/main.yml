@@ -3,7 +3,7 @@
 spicy_shell: "bash"
 spicy_timezone: "Etc/UTC"
 
-spicy_pyenv: true
+spicy_pyenv: false
 spicy_ssh: true
 spicy_chsh: false
 spicy_oh_my_zsh: false
