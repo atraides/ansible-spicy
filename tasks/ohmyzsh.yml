@@ -21,6 +21,7 @@
     src: ~/.oh-my-zsh/templates/zshrc.zsh-template
     dest: ~/.zshrc
     remote_src: yes
+    mode: "0640"
   when: not spicy_zshrc_results.stat.exists
 
 - name: Oh My Zsh | Copy file with owner and permissions

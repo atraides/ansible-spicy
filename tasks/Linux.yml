@@ -9,6 +9,10 @@
   include_tasks: setup_ssh.yml
   when: spicy_ssh | bool
 
+- name: Setup keychain
+  include_tasks: keychain.yml
+  when: spicy_keychain | bool
+
 - name: Setup PyEnv
   include_tasks: pyenv.yml
   when: spicy_pyenv | bool

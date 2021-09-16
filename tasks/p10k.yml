@@ -4,6 +4,7 @@
     - name: "Download powerline10k from github"
       git:
         repo: "https://github.com/romkatv/powerlevel10k.git"
+        version: "v1.15.0"
         depth: 1
         dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/powerlevel10k"
 
@@ -13,5 +14,6 @@
         regexp: "^ZSH_THEME=(.*)$"
         line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
         state: present
+        mode: "0640"
         owner: "{{ ansible_user_id }}"
         create: yes
