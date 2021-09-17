@@ -1,4 +1,10 @@
 ---
+- name: Import and run the pyenv role
+  import_role:
+    name: markosamuli.pyenv
+  vars:
+    pyenv_init_shell: false
+    
 - name: "Add pyenv to the oh-my-zsh plugins"
   set_fact:
     ohmyzsh_plugins: "{{ ohmyzsh_plugins + [ 'pyenv' ] }}"
