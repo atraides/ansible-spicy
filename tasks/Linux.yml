@@ -36,3 +36,9 @@
     spicy_shell == "zsh" and
     spicy_oh_my_zsh | bool and
     spicy_p10k | bool
+
+- name: Setup the system as an Ansible host
+  include_tasks: ansible.yml
+  when: >
+    spicy_ansible | bool
+    or spicy_ansible_dev | bool

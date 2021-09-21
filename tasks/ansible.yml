@@ -1,0 +1,11 @@
+---
+- name: Make sure ansible is installed
+  pip:
+    name: ansible
+    state: present
+
+- name: Make sure ansible-lint is installed
+  pip:
+    name: ansible-lint
+    state: present
+  when: spicy_ansible_dev | bool
