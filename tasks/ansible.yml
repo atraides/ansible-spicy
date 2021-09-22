@@ -1,11 +1,10 @@
 ---
-- name: Make sure ansible is installed
+- name: Install individual packages with pip
   pip:
-    name: ansible
+    name: "{{ item }}"
     state: present
-
-- name: Make sure ansible-lint is installed
-  pip:
-    name: ansible-lint
-    state: present
-  when: spicy_ansible_dev | bool
+  loop: "{{ spicy_python_packages }}"
+  when: >
+    spicy_python_packages | length > 0
+  environment:
+    PATH: "{{ ansible_user_dir }}/.pyenv/shims:{{ ansible_env.PATH }}"

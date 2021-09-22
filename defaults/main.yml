@@ -12,3 +12,4 @@ spicy_keychain: false
 spicy_grc: false
 spicy_ansible: false
 spicy_ansible_dev: false
+spicy_python_packages: []
