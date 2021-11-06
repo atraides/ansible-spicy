@@ -5,6 +5,7 @@
     - "os/{{ ansible_distribution }}/{{ ansible_distribution_release }}.yml"
     - "os/{{ ansible_distribution }}.yml"
     - "os/{{ ansible_os_family }}.yml"
+    - "os/{{ ansible_system }}.yml"
     - "os/default.yml"
 
 - name: Setup on Linux

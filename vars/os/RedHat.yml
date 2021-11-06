@@ -1,0 +1,24 @@
+---
+# https://github.com/pyenv/pyenv/wiki/common-build-problems
+pyenv_build_requirements:
+  - make
+  - gcc
+  - zlib-devel
+  - bzip2
+  - bzip2-devel
+  - readline-devel
+  - sqlite
+  - sqlite-devel
+  - openssl-devel
+  - tk-devel
+  - libffi-devel
+  - git
+
+
+spicy_shell_packages:
+  bash: "bash"
+  zsh: "zsh"
+
+spicy_shell_binary:
+  bash: "/bin/bash"
+  zsh: "/usr/bin/zsh"
